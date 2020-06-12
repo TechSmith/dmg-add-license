@@ -185,5 +185,18 @@ bloqueado, ou o arquivo pode estar bloqueado.</string>
 		<string>Den här texten kan inte sparas eftersom antingen skivan är full eller skivan och/eller dokumentet är låst.</string>
 		<string>Kan inte skriva ut. Kontrollera att du har valt en skrivare. </string>
 	</array>
+	<key>zh</key>
+	<array>
+		<integer>0</integer>
+		<string>Chinese</string>
+		<string>同意</string>
+		<string>反对</string>
+		<string>打印</string>
+		<string>存储...</string>
+		<string>重要提示-在点击 &quot;同意&quot; 按钮之前, 请仔细阅读本许可协议。 点击 &quot;同意&quot; 按钮, 即表示您同意受许可协议条款的约束.</string>
+		<string>软件许可协议</string>
+		<string>无法保存此文本。此磁盘可能已满或已锁定, 或者文件可能已锁定</string>
+		<string>无法打印。请确保您选择了打印机。</string>
+	</array>
 </dict>
 </plist>

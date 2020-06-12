@@ -135,8 +135,11 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 		if (!CFStringGetPascalString(s, p, 256, encoding)) {
-			printf("'%s' dictionary error (can't convert #%d to a Pascal string)\n",isoch+1,i);
-			return 1;
+         if (!CFStringGetPascalString(s, p, 256, kTextEncodingMacChineseSimp))
+         {
+            printf("'%s' dictionary error (can't convert #%d to a Pascal string)\n",isoch+1,i);
+            return 1;
+         }
 		}
 		p += p[0]+1;
 	}
