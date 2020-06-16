@@ -27,7 +27,7 @@
 #include "license.plist.h"
 
 // When referencing resource layouts, always make sure of 68K aligment
-#pragma options align=mac68k
+#pragma pack(2)
 typedef struct LPic {
 	UInt16 defLang;
 	UInt16 count;
@@ -135,8 +135,20 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 		if (!CFStringGetPascalString(s, p, 256, encoding)) {
-			printf("'%s' dictionary error (can't convert #%d to a Pascal string)\n",isoch+1,i);
-			return 1;
+         // try retrieving string with Chinese encoding
+         bool success = CFStringGetPascalString(s, p, 256, kTextEncodingMacChineseSimp);
+         
+         // try retrieving string with Japanese encoding
+         if (!success)
+         {
+            success = CFStringGetPascalString(s, p, 256, kTextEncodingMacJapanese);
+         }
+         
+         if (!success)
+         {
+            printf("'%s' dictionary error (can't convert #%d to a Pascal string)\n",isoch+1,i);
+                        return 1;
+         }
 		}
 		p += p[0]+1;
 	}
