@@ -115,12 +115,16 @@ int main(int argc, char *argv[]) {
 		printf("'%s' dictionary strings error (should be 10 items)\n",isoch+1);
 		return 1;
 	}
-	UInt32 encoding = kTextEncodingMacRoman;
-	CFNumberRef enc = CFArrayGetValueAtIndex(strings, 0);
-	if (CFGetTypeID(enc)!=CFNumberGetTypeID()) {
-		printf("'%s' dictionary strings error (first item must be a number)\n",isoch+1);
-		return 1;
-	}
+	// We should get ID of encoding, for exaple Japanise language can be encoded with kTextEncodingMacJapanese
+   UInt32 encoding = kTextEncodingMacRoman;
+   CFNumberRef enc = CFArrayGetValueAtIndex(strings, 0);
+
+   if (!CFNumberGetValue(enc, kCFNumberSInt32Type, &encoding)){
+       printf("'%s' dictionary strings error (first item can't be convert to int)\n",isoch+1);
+       return 1;
+   };
+ 
+   printf("Detected: '%s (%s)', LangCode = %d, RegionCode = %d, Encoding = %d\n", argv[2],isoch+1,lang,region, encoding);
 //	Set up the STR* resource here. No worries about RAM, so we do a sufficiently large size,
 //	and whittle it down later.
 	Handle strsh = NewHandleClear(32768);
@@ -135,20 +139,8 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 		if (!CFStringGetPascalString(s, p, 256, encoding)) {
-         // try retrieving string with Chinese encoding
-         bool success = CFStringGetPascalString(s, p, 256, kTextEncodingMacChineseSimp);
-         
-         // try retrieving string with Japanese encoding
-         if (!success)
-         {
-            success = CFStringGetPascalString(s, p, 256, kTextEncodingMacJapanese);
-         }
-         
-         if (!success)
-         {
-            printf("'%s' dictionary error (can't convert #%d to a Pascal string)\n",isoch+1,i);
-                        return 1;
-         }
+			printf("'%s' dictionary error (can't convert #%d to a Pascal string)\n",isoch+1,i);
+			return 1;
 		}
 		p += p[0]+1;
 	}
